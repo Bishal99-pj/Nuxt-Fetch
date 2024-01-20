@@ -1,6 +1,7 @@
 <template>
-    <div>
-        <Icon name="mdi:github" size="48"/>
+    <div class="flex justify-center gap-2 items-center text-xl font-bold">
+        <Icon name="mdi:home" size="26"/>
+        <span>Home</span>
     </div>
 </template>
 

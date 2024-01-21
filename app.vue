@@ -1,5 +1,7 @@
 <template>
-  <div class="px-6">
+  <div class="px-6 container mx-auto">
+    <NuxtLoadingIndicator/>
+    <AppNav/>
     <NuxtPage/>
   </div>
 </template>

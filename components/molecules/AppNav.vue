@@ -7,6 +7,12 @@
             <li class="hover:underline">
                 <NuxtLink to="/products">Products</NuxtLink>
             </li>
+            <li class="hover:underline">
+                <NuxtLink to="/autocomplete-test">Auto Test</NuxtLink>
+            </li>
+            <li class="hover:underline">
+                <NuxtLink to="/input-test">Input Test</NuxtLink>
+            </li>
         </ul>
     </nav>
 </template>

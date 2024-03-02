@@ -1,10 +1,11 @@
 <template>
     <div class="text-center text-2xl mt-10">
-        <button class="btn" :type="variant">{{ label }}</button>
+        <button class="btn" :class="baseClasses" :type="variant">{{ label }}</button>
     </div>
 </template>
 
 <script setup lang="ts">
+import type { PropType } from 'vue'
 
 enum enumTypes {
     Button = 'button',
@@ -12,7 +13,13 @@ enum enumTypes {
     Submit = 'submit',
 }
 
+// getting array values as types
+const values = ['foo', 'bar', 'baz'] as const;
 
+type UnionType = typeof values[number]
+
+// error
+// const balo : UnionType = 10
 
 type Props = {
     label: string,
@@ -23,13 +30,25 @@ type Props = {
 
     //--- to get the values from the enum
     variant?: `${enumTypes}`,
+    baseClasses?: string[]
 }
 
+
+/* No Strict Checking */
+// const {
+//     label = 'Base Button',
+//     variant = 'button',
+//     baseClasses = ['container border-0 shadow', 9]
+// } = defineProps<Props>()
+
+
+
 withDefaults(defineProps<Props>(), {
-    label: 'Base Button',
-    variant: 'button'
+    label : 'Base Button',
+    variant : 'button',
+    baseClasses : () => ['container border-0 shadow', 'mx-auto']
 })
-// console.log(typeof variant.value);
+
 
 </script>
 

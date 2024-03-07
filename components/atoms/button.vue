@@ -43,10 +43,16 @@ type Props = {
 
 
 
-withDefaults(defineProps<Props>(), {
-    label : 'Base Button',
-    variant : 'button',
-    baseClasses : () => ['container border-0 shadow', 'mx-auto']
+// withDefaults(defineProps<Props>(), {
+//     label : 'Base Button',
+//     variant : 'button',
+//     baseClasses : () => ['container border-0 shadow', 'mx-auto']
+// })
+
+defineProps({
+    label: String,
+    variant : String as PropType<`${enumTypes}`>,
+    baseClasses : Array as PropType<string[]>
 })
 
 

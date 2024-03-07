@@ -6,7 +6,12 @@ export default defineNuxtConfig({
     strict: true,
     // typeCheck: true,
   },
-  modules: ["@nuxtjs/tailwindcss", "nuxt-icon", "@vueuse/nuxt"],
+  modules: [
+    "@nuxtjs/tailwindcss",
+    "nuxt-icon",
+    "@vueuse/nuxt",
+    "@nuxt/image",
+  ],
   components: [
     {
       path: "~/components",

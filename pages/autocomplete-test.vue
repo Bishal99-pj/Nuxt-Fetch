@@ -17,6 +17,7 @@
 <script setup lang="ts">
 import type { Person } from '~/types/people.type';
 
+
 const people: Person[] = [
     { id: 1, name: 'Wade Cooper' },
     { id: 2, name: 'Arlene Mccoy' },
@@ -41,4 +42,5 @@ const people: Person[] = [
 ]
 
 const selectedPerson: Ref<Person | null> = ref(null)
+
 </script>

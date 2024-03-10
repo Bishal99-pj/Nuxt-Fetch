@@ -8,9 +8,6 @@
             </template>
         </Autocomplete>
 
-        <!-- <MyAlert />
-        <MyAlert dismiss-btn />
-        <MyAlert dismiss-btn="Cancel" /> -->
     </div>
 </template>
 

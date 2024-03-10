@@ -5,7 +5,7 @@
 </template>
 
 <script setup lang="ts">
-import type { PropType } from 'vue'
+import type { ClassNameValue } from 'tailwind-merge';
 
 enum enumTypes {
     Button = 'button',
@@ -51,8 +51,8 @@ type Props = {
 
 defineProps({
     label: String,
-    variant : String as PropType<`${enumTypes}`>,
-    baseClasses : Array as PropType<string[]>
+    variant: String as PropType<`${enumTypes}`>,
+    baseClasses: Array as PropType<ClassNameValue[]>
 })
 
 

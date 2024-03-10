@@ -26,8 +26,8 @@
             </div>
             <!-- Select (with flag) -->
             <div class="flex flex-col space-y-6">
-                <SelectBox :options="countries" v-model="form.country" label="Select Country" option-label="flag"/>
-                    <!-- <template #option="{ option, activeOption }">
+                <SelectBox :options="countries" v-model="form.country" label="Select Country" option-label="flag" />
+                <!-- <template #option="{ option, activeOption }">
                         <div class="flex items-center space-x-3">
                             <span>{{ option.flag }}</span>
                             <span>{{ option.label }}</span>

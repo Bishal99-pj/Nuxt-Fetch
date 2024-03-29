@@ -4,6 +4,7 @@
             {{ label }}</label>
         <select v-bind="$attrs" v-model="selectedOption" :id="'select-' + randomId"
             :class="$attrs.class || twMerge('w-full rounded border-0', appendClass)">
+            <option disabled value="">{{ placeholder || 'Select an option' }}</option>
             <option v-for="(option, index) in options" :key="getKey(option)" @mouseover="activeOption = option">
                 <slot name="option" :option="option" :activeOption="activeOption">
                     {{ getLabel(option) }}
@@ -13,9 +14,8 @@
     </form>
 </template>
 
-<script setup lang="ts" generic="T extends string | number | OptionType">
+<script setup lang="ts" generic="T">
 import { twMerge, type ClassNameValue } from 'tailwind-merge';
-import type { OptionType } from '~/types/option.types';
 
 defineOptions({
     inheritAttrs: false
@@ -29,6 +29,7 @@ const props = defineProps<{
     options: T[],
     optionLabel?: keyof T,
     appendClass?: ClassNameValue
+    placeholder?: string
 }>()
 
 
@@ -38,7 +39,7 @@ const getKey = (opt: T): string | number => {
 }
 
 const getLabel = (opt: T): any => {
-    if (props.optionLabel && typeof opt === 'object') return opt[props.optionLabel]
+    if (props.optionLabel && typeof opt === 'object') return opt![props.optionLabel]
     return String(opt)
 }
 

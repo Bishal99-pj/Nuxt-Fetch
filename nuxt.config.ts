@@ -4,7 +4,6 @@ export default defineNuxtConfig({
   css: ["~/assets/css/global.css"],
   typescript: {
     strict: true,
-    // typeCheck: true,
   },
   modules: [
     "@nuxtjs/tailwindcss",

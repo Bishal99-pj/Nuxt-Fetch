@@ -16,7 +16,12 @@
       <SelectBox :options="years" v-model="form.year" label="Select Year" />
       <!-- OBJECTS -->
       <!-- Select (with image) -->
-      <SelectBox :options="persons" v-model="form.person" label="Select Person">
+      <SelectBox
+        :options="persons"
+        v-model="form.person"
+        label="Select Person"
+        option-label="label"
+      >
         <template #option="{ option, activeOption }">
           <div class="flex items-center space-x-3">
             <NuxtImg
@@ -33,7 +38,7 @@
         :options="countries"
         v-model="form.country"
         label="Select Country"
-        option-label="flag"
+        option-label="label"
       />
       <!-- <template #option="{ option, activeOption }">
                         <div class="flex items-center space-x-3">

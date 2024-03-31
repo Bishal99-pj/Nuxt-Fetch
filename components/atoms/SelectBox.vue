@@ -3,6 +3,8 @@
     <div ref="selectRef" class="relative">
       <input
         type="search"
+        v-model="searchQuery"
+        @input="onSearch($event)"
         :id="'select-input-' + randomId"
         role="combobox"
         autocomplete="off"
@@ -14,6 +16,7 @@
         "
         class="block w-full p-2.5 text-sm text-gray-900 border border-gray-300 rounded-md bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
         :placeholder="placeholder"
+        :readonly="!editable"
       />
       <Icon
         name="uiw:down"
@@ -40,20 +43,21 @@
       "
     >
       <li
-        v-for="(option, index) in options"
+        v-for="(option, index) in visibleOptions"
         :key="getKey(option)"
         role="option"
         :aria-label="JSON.stringify(getLabel(option))"
         :aria-selected="isSelected(option)"
         :class="
-          twJoin(
-            'cursor-pointer py-2 px-3 hover:text-blue-600 hover:bg-sky-200 dark:hover:bg-gray-600 transition-colors duration-200',
-            activeOptionIndex === index &&
-              'text-blue-600 bg-sky-200 dark:bg-gray-600'
+          twMerge(
+            'cursor-pointer py-2 px-3 transition-colors duration-[175ms]',
+            activeOptionIndex === index
+              ? 'text-blue-600 bg-sky-200 dark:bg-gray-600'
+              : ''
           )
         "
         @click="onSelect(option, index)"
-        @mouseover="onHover(option, index)"
+        @mousemove="onHover(option, index)"
       >
         <slot name="option" :option="option" :activeOption="activeOption">
           {{ getLabel(option) }}
@@ -63,7 +67,11 @@
   </div>
 </template>
 
-<script setup lang="ts" generic="T">
+<script
+  setup
+  lang="ts"
+  generic="T extends string | number | Record<string , any>"
+>
 // flowbite
 import { Dropdown } from "flowbite";
 import type { DropdownOptions, DropdownInterface } from "flowbite";
@@ -76,10 +84,17 @@ const dropdownRef = ref<HTMLUListElement | null>(null);
 const selectRef = ref<HTMLDivElement | null>(null);
 const dropdown = ref<DropdownInterface | null>(null);
 const dropdownVisible = ref<boolean>(false);
-
+const searchQuery = ref<string>("");
 const selectedOption = defineModel<T>();
 const activeOption = ref<T>();
 const activeOptionIndex = ref<number>(-1);
+
+//-------- EMITS
+const emit = defineEmits<{
+  search: [e: Event, query: string, activeIndex: number];
+  select: any;
+  hover: any;
+}>();
 
 //-------- PROPS
 const props = withDefaults(
@@ -88,29 +103,57 @@ const props = withDefaults(
     optionLabel?: keyof T;
     optionValue?: keyof T;
     divide?: boolean;
+    editable?: boolean;
     placeholder?: string;
   }>(),
   {
     placeholder: "Select an option",
+    editable: true,
     divide: false,
   }
 );
 
 //--------- GETTERS
+const visibleOptions = ref([...props.options]) as Ref<T[]>;
+
 const isSelected = (option: T) => isEqual(option, selectedOption.value);
 
-const getKey = (opt: T): string | number => {
-  if (typeof opt === "string" || typeof opt === "number") return opt;
+const getKey = (opt: T) => {
   return JSON.stringify(opt);
 };
 
 const getLabel = (opt: T) => {
-  if (props.optionLabel && typeof opt === "object")
-    return opt![props.optionLabel];
+  if (props.optionLabel) return opt![props.optionLabel];
   return String(opt);
 };
 
 //------- METHODS & EMITS
+let searchTimeout: ReturnType<typeof setTimeout>;
+
+const onSearch = (e: Event) => {
+  if (!searchQuery.value.trim().length) {
+    visibleOptions.value = props.options;
+    return;
+  }
+  if (props.options.length === 0) return;
+  // Search and Update
+  emit("search", e, searchQuery.value, activeOptionIndex.value);
+  activeOptionIndex.value = -1;
+  let matched = false;
+  if (searchTimeout) {
+    clearTimeout(searchTimeout);
+  }
+  searchTimeout = setTimeout(() => {
+    visibleOptions.value = visibleOptions.value.filter((opt: T) => {
+      return (getLabel(opt) as string)
+        .toLowerCase()
+        .includes(searchQuery.value.trim().toLowerCase());
+    });
+    activeOptionIndex.value = 0;
+    matched = true;
+  }, 400);
+};
+
 const onSelect = (opt: T, index: number) => {
   selectedOption.value = opt;
   activeOption.value = opt;
@@ -139,6 +182,7 @@ onMounted(() => {
       dropdownVisible.value = false;
     },
     onShow: () => {
+      if (!selectedOption.value) activeOptionIndex.value = 0;
       dropdownVisible.value = true;
     },
     onToggle: () => {},

@@ -6,20 +6,35 @@
       <!-- <MyInput v-model="amount" label="Number" type="number" />
         <MyInput v-model="msg" label="String" type="text" /> -->
 
+      <select>
+        <option v-for="s in streets" :key="s">{{ s }}</option>
+      </select>
+
+      <!-- Not editable Select -->
+      <SelectBox
+        :options="['Hose', 'Drills', 'Kitchen', 'Pipes', 'Tools', 'Other']"
+        v-model="form.tool"
+        placeholder="Select a tool"
+        :editable="false"
+      />
       <!-- String Select -->
       <SelectBox
         :options="streets"
         v-model="form.street"
-        label="Select Street Address"
+        placeholder="Search Street Address"
       />
       <!-- Number Select -->
-      <SelectBox :options="years" v-model="form.year" label="Select Year" />
+      <SelectBox
+        :options="years"
+        v-model="form.year"
+        placeholder="Select Year"
+      />
       <!-- OBJECTS -->
       <!-- Select (with image) -->
       <SelectBox
         :options="persons"
         v-model="form.person"
-        label="Select Person"
+        placeholder="Select Person"
         option-label="label"
       >
         <template #option="{ option, activeOption }">
@@ -37,7 +52,7 @@
       <SelectBox
         :options="countries"
         v-model="form.country"
-        label="Select Country"
+        placeholder="Select Country"
         option-label="label"
       />
       <!-- <template #option="{ option, activeOption }">
@@ -75,18 +90,14 @@ type Country = {
 } & OptionType;
 
 type Form = {
+  tool?: string;
   street?: string;
   year?: number;
   person?: Person;
   country?: Country;
 };
 
-const form = reactive<Form>({
-  street: undefined,
-  year: undefined,
-  person: undefined,
-  country: undefined,
-});
+const form = reactive<Form>({});
 
 const streets: string[] = [
   "125 Hutic Junction",

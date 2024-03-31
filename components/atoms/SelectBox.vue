@@ -1,10 +1,17 @@
 <template>
-  <div :id="'root-' + randomId" class="inline-block relative">
+  <div
+    :id="'root-' + randomId"
+    class="inline-block relative"
+    :class="{ 'cursor-pointer': !props.editable }"
+  >
+    <!-- Select Input -->
     <div ref="selectRef" class="relative">
       <input
         type="search"
         v-model="searchQuery"
         @input="onSearch($event)"
+        @focus="onFocus($event)"
+        @keydown="onKeydown($event)"
         :id="'select-input-' + randomId"
         role="combobox"
         autocomplete="off"
@@ -14,9 +21,9 @@
         :aria-activedescendant="
           activeOptionIndex ? String(activeOptionIndex) : undefined
         "
-        class="block w-full p-2.5 text-sm text-gray-900 border border-gray-300 rounded-md bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-        :placeholder="placeholder"
-        :readonly="!editable"
+        class="block w-full read-only:cursor-pointer p-2.5 text-sm text-gray-900 border border-gray-300 rounded-md bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+        :placeholder="props.placeholder"
+        :readonly="!props.editable"
       />
       <Icon
         name="uiw:down"
@@ -30,7 +37,7 @@
         "
       />
     </div>
-    <!-- dropdown -->
+    <!-- Dropdown Element -->
     <ul
       ref="dropdownRef"
       :id="'select-' + randomId"
@@ -45,6 +52,8 @@
       <li
         v-for="(option, index) in visibleOptions"
         :key="getKey(option)"
+        :id="'option-' + index + '-' + randomId"
+        :ref="listRefs.set"
         role="option"
         :aria-label="JSON.stringify(getLabel(option))"
         :aria-selected="isSelected(option)"
@@ -82,6 +91,7 @@ import { twMerge, type ClassNameValue, twJoin } from "tailwind-merge";
 // Component Refs & STATES
 const dropdownRef = ref<HTMLUListElement | null>(null);
 const selectRef = ref<HTMLDivElement | null>(null);
+const listRefs = useTemplateRefsList<HTMLLIElement>();
 const dropdown = ref<DropdownInterface | null>(null);
 const dropdownVisible = ref<boolean>(false);
 const searchQuery = ref<string>("");
@@ -92,8 +102,8 @@ const activeOptionIndex = ref<number>(-1);
 //-------- EMITS
 const emit = defineEmits<{
   search: [e: Event, query: string, activeIndex: number];
-  select: any;
-  hover: any;
+  select: [option: T];
+  hover: [option: T];
 }>();
 
 //-------- PROPS
@@ -155,23 +165,127 @@ const onSearch = (e: Event) => {
 };
 
 const onSelect = (opt: T, index: number) => {
+  emit("select", opt);
   selectedOption.value = opt;
+  searchQuery.value = String(getLabel(opt));
   activeOption.value = opt;
   activeOptionIndex.value = index;
   dropdown.value?.hide();
 };
 
 const onHover = (opt: T, index: number) => {
+  if (!props.editable) searchQuery.value = String(getLabel(opt));
   activeOption.value = opt;
   activeOptionIndex.value = index;
+  emit("hover", opt);
 };
+
+// BUG: #Flowbite Dropdown toggles when search input is focused by Tab at start
+const onFocus = (event: Event) => {
+  console.log("search input focused");
+};
+
+function setActiveOption(activeId: number) {
+  if (visibleOptions.value.length > 0) {
+    activeOption.value = visibleOptions.value[activeId];
+    searchQuery.value = String(getLabel(activeOption.value));
+  }
+}
+
+function scrollInView(listIndex: number) {
+  nextTick(() => {
+    const activeListElement = listRefs.value[listIndex];
+    if (activeListElement) {
+      activeListElement.scrollIntoView &&
+        activeListElement.scrollIntoView({
+          behavior: "smooth",
+          block: "end",
+        });
+    }
+  });
+}
+
+// KEYBINDINGS
+const onArrowDownKey = (event: Event) => {
+  activeOptionIndex.value++;
+  if (activeOptionIndex.value >= visibleOptions.value.length) {
+    activeOptionIndex.value = 0;
+  }
+  scrollInView(activeOptionIndex.value);
+  setActiveOption(activeOptionIndex.value);
+};
+
+const onArrowUpKey = (event: Event) => {
+  activeOptionIndex.value--;
+  if (activeOptionIndex.value < 0) {
+    activeOptionIndex.value = visibleOptions.value.length - 1;
+  }
+  scrollInView(activeOptionIndex.value);
+  setActiveOption(activeOptionIndex.value);
+};
+
+const onDeleteKey = (event: Event) => {
+  activeOptionIndex.value = -1;
+  searchQuery.value = "";
+  visibleOptions.value = [...props.options];
+  if (selectedOption.value) {
+    selectedOption.value = undefined;
+  }
+};
+
+const onEscapeKey = (event: Event) => {
+  dropdown.value?.hide();
+};
+
+const onEnterKey = (event: Event) => {
+  if (activeOption.value && activeOptionIndex.value > -1) {
+    onSelect(activeOption.value, activeOptionIndex.value);
+  }
+};
+
+const onSpaceKey = (event: Event, editable: boolean) => {
+  if (!editable) dropdown.value?.toggle();
+};
+
+function onKeydown(event: Event) {
+  switch ((event as KeyboardEvent).code) {
+    case "ArrowDown":
+      onArrowDownKey(event);
+      break;
+    case "ArrowUp":
+      onArrowUpKey(event);
+      break;
+    case "Delete":
+      onDeleteKey(event);
+      break;
+
+    case "PageUp":
+      onArrowUpKey(event);
+      break;
+    case "PageDown":
+      onArrowDownKey(event);
+      break;
+
+    case "Space":
+      onSpaceKey(event, props.editable);
+      break;
+
+    case "Enter":
+    case "NumpadEnter":
+      onEnterKey(event);
+      break;
+
+    case "Escape":
+      onEscapeKey(event);
+      break;
+  }
+}
 
 const randomId = ref<string>("");
 
 onMounted(() => {
   randomId.value = crypto.randomUUID();
 
-  // options with default values
   const options: DropdownOptions = {
     placement: "bottom",
     triggerType: "click",
@@ -179,16 +293,19 @@ onMounted(() => {
     offsetDistance: 5,
     delay: 100,
     onHide: () => {
+      console.log("dropdown has been hidden");
       dropdownVisible.value = false;
     },
     onShow: () => {
+      console.log("dropdown has been shown");
       if (!selectedOption.value) activeOptionIndex.value = 0;
       dropdownVisible.value = true;
     },
-    onToggle: () => {},
+    onToggle: () => {
+      console.log("dropdown has been toggled");
+    },
   };
 
-  // instance options object
   const instanceOptions: InstanceOptions = {
     id: "select-" + randomId.value,
     override: true,

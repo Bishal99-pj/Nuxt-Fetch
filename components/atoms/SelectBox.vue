@@ -1,7 +1,7 @@
 <template>
   <div
     :id="'root-' + randomId"
-    class="inline-block relative"
+    class="relative"
     :class="{ 'cursor-pointer': !props.editable }"
   >
     <!-- Select Input -->
@@ -118,7 +118,7 @@ const props = withDefaults(
   }>(),
   {
     placeholder: "Select an option",
-    editable: true,
+    editable: false,
     divide: false,
   }
 );
@@ -154,7 +154,7 @@ const onSearch = (e: Event) => {
     clearTimeout(searchTimeout);
   }
   searchTimeout = setTimeout(() => {
-    visibleOptions.value = visibleOptions.value.filter((opt: T) => {
+    visibleOptions.value = props.options.filter((opt: T) => {
       return (getLabel(opt) as string)
         .toLowerCase()
         .includes(searchQuery.value.trim().toLowerCase());
@@ -199,7 +199,8 @@ function scrollInView(listIndex: number) {
       activeListElement.scrollIntoView &&
         activeListElement.scrollIntoView({
           behavior: "smooth",
-          block: "end",
+          block: "nearest",
+          inline: "start",
         });
     }
   });

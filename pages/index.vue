@@ -1,5 +1,5 @@
 <template>
-    <div class="flex flex-col justify-center space-y-3">
+    <div class="container flex flex-col justify-center space-y-3">
         <div class="flex gap-1.5 items-center">
             <Icon name="mdi:home" size="26" />
             <span>Home</span>
@@ -28,7 +28,9 @@
         <Media>
             <template #media-left>
                 <figure class="shrink-0">
-                    <NuxtImg src="https://bulma.io/images/placeholders/128x128.png" />
+                    <NuxtImg
+                        src="https://images.unsplash.com/photo-1712698396006-1996dc7cb2cc?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxlZGl0b3JpYWwtZmVlZHwyfHx8ZW58MHx8fHx8"
+                        width="128" height="128" />
                 </figure>
             </template>
             <template #media-content>
@@ -62,6 +64,29 @@
                 </button>
             </template>
         </Media>
+
+        <div class="max-w-sm mx-auto">
+
+            <ScrollBox scroll_id="container" style="width:270px; height:250px">
+                <p>
+                    Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et
+                    dolore magna aliqua. Vitae et leo duis ut diam. Ultricies mi quis hendrerit dolor magna eget est lorem.
+                    Amet consectetur adipiscing
+                    elit ut. Nam libero justo laoreet sit amet. Pharetra massa massa ultricies mi quis hendrerit dolor
+                    magna. Est ultricies integer quis auctor elit sed vulputate. Consequat ac felis donec et. Tellus orci ac
+                    auctor augue mauris. Semper
+                    feugiat nibh sed pulvinar proin gravida hendrerit lectus a. Tincidunt arcu non sodales neque sodales.
+                    Metus aliquam eleifend mi in nulla posuere sollicitudin aliquam ultrices. Sodales ut etiam sit amet nisl
+                    purus. Cursus sit amet
+                    dictum sit amet. Tristique senectus et netus et malesuada fames ac turpis egestas. Et tortor consequat
+                    id porta nibh venenatis cras sed. Diam maecenas ultricies mi eget mauris. Eget egestas purus viverra
+                    accumsan in nisl nisi.
+                    Suscipit adipiscing bibendum est ultricies integer. Mattis aliquam faucibus purus in massa tempor nec.
+                </p>
+                <ScrollStart target="parent" />
+            </ScrollBox>
+
+        </div>
     </div>
 </template>
 

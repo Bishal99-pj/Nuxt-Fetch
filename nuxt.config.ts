@@ -3,6 +3,7 @@ export default defineNuxtConfig({
   devtools: { enabled: true },
   css: ["~/assets/css/global.css"],
   typescript: {
+    typeCheck: true,
     strict: true,
   },
   modules: [

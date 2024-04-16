@@ -67,7 +67,7 @@
 
         <div class="max-w-sm mx-auto">
 
-            <ScrollBox scroll_id="container" style="width:270px; height:250px">
+            <ScrollBox data-scroll-id="container" style="width:270px; height:250px">
                 <p>
                     Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et
                     dolore magna aliqua. Vitae et leo duis ut diam. Ultricies mi quis hendrerit dolor magna eget est lorem.
@@ -83,10 +83,13 @@
                     accumsan in nisl nisi.
                     Suscipit adipiscing bibendum est ultricies integer. Mattis aliquam faucibus purus in massa tempor nec.
                 </p>
-                <ScrollStart target="parent" />
+                <ScrollStart target="parent" controls="end" />
             </ScrollBox>
-
+            
         </div>
+        
+        <ScrollStart controls="end" />
+        <ScrollStart variant="horizontal" controls="end" />
     </div>
 </template>
 

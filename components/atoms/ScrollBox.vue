@@ -1,8 +1,6 @@
 <template>
     <div class="relative overflow-auto w-full">
-      <slot>
-          
-      </slot>
+      <slot />
     </div>
   </template>
   

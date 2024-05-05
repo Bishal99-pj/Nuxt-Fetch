@@ -1,9 +1,9 @@
 <template>
-  <div class="px-6 container mx-auto">
-    <NuxtLoadingIndicator />
+  <NuxtLoadingIndicator />
+  <NuxtLayout>
     <AppNav />
     <NuxtPage />
-  </div>
+  </NuxtLayout>
 </template>
 
 <script setup lang="ts">

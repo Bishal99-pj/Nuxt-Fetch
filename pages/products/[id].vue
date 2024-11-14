@@ -1,6 +1,6 @@
 <template>
-    <div class="text-center my-3 text-xl font-semibold" v-if="pending">Loading Product Info...</div>
-    <div class="flex flex-col items-cente bg-white p-6 rounded-lg shadow-md gap-2 max-w-md w-full my-8 mx-auto" v-else>
+    <div v-if="pending" class="text-center my-3 text-xl font-semibold">Loading Product Info...</div>
+    <div v-else class="flex flex-col items-cente bg-white p-6 rounded-lg shadow-md gap-2 max-w-md w-full my-8 mx-auto">
         <img :src="product.image" :alt="product.title" class="w-[200px] h-auto self-center mb-6">
         <h3 class="font-semibold overflow-hidden text-center text-lg">{{product.title}}</h3>
         <p class="text-gray-500 text-pretty capitalize">{{product.description}}</p>
@@ -10,7 +10,7 @@
         </h4>
         <span class="text-xl font-bold">${{product.price}}</span> 
         <div class="flex items-center gap-x-1">
-            <Icon name="mdi:star" size="18" color="yellow" v-for="n in stars"/>
+            <Icon v-for="n in stars" name="mdi:star" size="18" color="yellow"/>
             <span class="text-gray-500 text-sm">{{product.rating.count}} reviews</span>
         </div> 
     </div>

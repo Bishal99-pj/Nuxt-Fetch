@@ -12,28 +12,28 @@
 
       <!-- Not editable Select -->
       <SelectBox
-        :options="['Hose', 'Drills', 'Kitchen', 'Pipes', 'Tools', 'Other']"
         v-model="form.tool"
+        :options="['Hose', 'Drills', 'Kitchen', 'Pipes', 'Tools', 'Other']"
         placeholder="Select a tool"
         :editable="false"
       />
       <!-- String Select -->
       <SelectBox
-        :options="streets"
         v-model="form.street"
+        :options="streets"
         placeholder="Search Street Address"
       />
       <!-- Number Select -->
       <SelectBox
-        :options="years"
         v-model="form.year"
+        :options="years"
         placeholder="Select Year"
       />
       <!-- OBJECTS -->
       <!-- Select (with image) -->
       <SelectBox
-        :options="persons"
         v-model="form.person"
+        :options="persons"
         placeholder="Select Person"
         option-label="label"
       >
@@ -50,8 +50,8 @@
       </SelectBox>
       <!-- Select (with flag) -->
       <SelectBox
-        :options="countries"
         v-model="form.country"
+        :options="countries"
         placeholder="Select Country"
         option-label="label"
       />

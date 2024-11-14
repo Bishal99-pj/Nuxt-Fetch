@@ -1,9 +1,10 @@
 <template>
     <div class="mt-20">
         <label :for="id" class="mr-2">{{ label }}</label>
-        <input :id="id" type="text" :pattern="(type === 'number') ? '[0-9]' : '[a-z]'"
-            :inputmode="type === 'number' ? 'numeric' : 'text'" @input="$event => updateModelVal($event)"
-            v-model="modelVal" v-bind="$attrs" class="rounded p-2 ">
+        <input
+:id="id" v-model="modelVal" type="text"
+            :pattern="(type === 'number') ? '[0-9]' : '[a-z]'" :inputmode="type === 'number' ? 'numeric' : 'text'"
+            v-bind="$attrs" class="rounded p-2 " @input="$event => updateModelVal($event)">
         <!-- <pre>{{ $attrs }}</pre> -->
         <pre>type of modelVal- {{ typeof modelVal }}</pre>
     </div>
@@ -19,7 +20,7 @@ defineOptions({
 
 const { type = 'text', label = 'Input Label' } = defineProps<{
     type: T,
-    label: String
+    label: string
 }>()
 
 // to ensure errors on wrong type passing

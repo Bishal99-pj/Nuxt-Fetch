@@ -1,5 +1,6 @@
 <template>
-    <button ref="backToTopRef" class="top" :class="[props.target === 'window' ? 'fixed' : 'sticky', btnClass]"
+    <button
+ref="backToTopRef" class="top" :class="[props.target === 'window' ? 'fixed' : 'sticky', btnClass]"
         @click="scrollToStart">
         <slot>
             <Icon :name="floatIcon" size="18" class=" shrink-0" />

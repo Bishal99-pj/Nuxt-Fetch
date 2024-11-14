@@ -1,9 +1,9 @@
 <template>
     <div class="grid place-items-center min-h-[70dvh]">
         <h1 class="text-lg text-center">Selected User : {{ selectedPerson?.name }}</h1>
-        <Autocomplete :options="people" v-model="selectedPerson" label-by="name">
-            <template v-slot="{ option }">
-                <Icon name="mdi:check" v-if="selectedPerson?.id === option.id" class="w-5 h-5 me-0.5 text-green-500" />
+        <Autocomplete v-model="selectedPerson" :options="people" label-by="name">
+            <template #default="{ option }">
+                <Icon v-if="selectedPerson?.id === option.id" name="mdi:check" class="w-5 h-5 me-0.5 text-green-500" />
                 {{ option.name }}
             </template>
         </Autocomplete>

@@ -7,7 +7,7 @@
                 {{product.category}}</h4>
             <span class="text-xl font-bold">${{product.price}}</span>
             <div class="flex items-center gap-x-1">
-                <Icon name="mdi:star" size="18" color="yellow" v-for="n in rating"/>
+                <Icon v-for="n in rating" name="mdi:star" size="18" color="yellow"/>
                 <span class="text-gray-500 text-sm">{{product.rating.count}} reviews</span>
             </div>
         </NuxtLink>

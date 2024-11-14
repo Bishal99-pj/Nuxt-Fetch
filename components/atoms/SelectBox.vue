@@ -7,12 +7,9 @@
     <!-- Select Input -->
     <div ref="selectRef" class="relative">
       <input
-        type="search"
-        v-model="searchQuery"
-        @input="onSearch($event)"
-        @focus="onFocus($event)"
-        @keydown="onKeydown($event)"
         :id="'select-input-' + randomId"
+        v-model="searchQuery"
+        type="search"
         role="combobox"
         autocomplete="off"
         aria-haspopup="listbox"
@@ -24,7 +21,10 @@
         class="block w-full read-only:cursor-pointer p-2.5 text-sm text-gray-900 border border-gray-300 rounded-md bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
         :placeholder="props.placeholder"
         :readonly="!props.editable"
-      />
+        @input="onSearch($event)"
+        @focus="onFocus($event)"
+        @keydown="onKeydown($event)"
+      >
       <Icon
         name="uiw:down"
         size="18"
@@ -39,8 +39,8 @@
     </div>
     <!-- Dropdown Element -->
     <ul
-      ref="dropdownRef"
       :id="'select-' + randomId"
+      ref="dropdownRef"
       role="listbox"
       :class="
         twJoin(
@@ -51,8 +51,8 @@
     >
       <li
         v-for="(option, index) in visibleOptions"
-        :key="getKey(option)"
         :id="'option-' + index + '-' + randomId"
+        :key="getKey(option)"
         :ref="listRefs.set"
         role="option"
         :aria-label="JSON.stringify(getLabel(option))"
@@ -68,7 +68,7 @@
         @click="onSelect(option, index)"
         @mousemove="onHover(option, index)"
       >
-        <slot name="option" :option="option" :activeOption="activeOption">
+        <slot name="option" :option="option" :active-option="activeOption">
           {{ getLabel(option) }}
         </slot>
       </li>
@@ -83,8 +83,8 @@
 >
 // flowbite
 import { Dropdown } from "flowbite";
-import type { DropdownOptions, DropdownInterface } from "flowbite";
-import type { InstanceOptions } from "flowbite";
+import type { DropdownOptions, DropdownInterface , InstanceOptions } from "flowbite";
+
 // twMerge
 import { twMerge, type ClassNameValue, twJoin } from "tailwind-merge";
 

@@ -47,5 +47,4 @@ const { data, status } = useAsyncData(
   { lazy: true }
 );
 
-const isLazy = ref(false);
 </script>

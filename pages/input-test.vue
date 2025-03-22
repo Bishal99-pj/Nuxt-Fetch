@@ -1,7 +1,7 @@
 <template>
   <section class="flex flex-col container mx-auto h-[90dvh]">
     <div
-      class="my-10 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-y-6 place-items-end"
+        class="my-10 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-y-6 place-items-end"
     >
       <!-- <MyInput v-model="amount" label="Number" type="number" />
         <MyInput v-model="msg" label="String" type="text" /> -->
@@ -12,37 +12,37 @@
 
       <!-- Not editable Select -->
       <SelectBox
-        v-model="form.tool"
-        :options="['Hose', 'Drills', 'Kitchen', 'Pipes', 'Tools', 'Other']"
-        placeholder="Select a tool"
-        :editable="false"
+          v-model="form.tool"
+          :options="['Hose', 'Drills', 'Kitchen', 'Pipes', 'Tools', 'Other']"
+          placeholder="Select a tool"
+          :editable="false"
       />
       <!-- String Select -->
       <SelectBox
-        v-model="form.street"
-        :options="streets"
-        placeholder="Search Street Address"
+          v-model="form.street"
+          :options="streets"
+          placeholder="Search Street Address"
       />
       <!-- Number Select -->
       <SelectBox
-        v-model="form.year"
-        :options="years"
-        placeholder="Select Year"
+          v-model="form.year"
+          :options="years"
+          placeholder="Select Year"
       />
       <!-- OBJECTS -->
       <!-- Select (with image) -->
       <SelectBox
-        v-model="form.person"
-        :options="persons"
-        placeholder="Select Person"
-        option-label="label"
+          v-model="form.person"
+          :options="persons"
+          placeholder="Select Person"
+          option-label="label"
       >
         <template #option="{ option, activeOption }">
           <div class="flex items-center space-x-3">
             <NuxtImg
-              :src="option.imageUrl"
-              :alt="option.label"
-              class="w-8 h-8 rounded-full"
+                :src="option.imageUrl"
+                :alt="option.label"
+                class="w-8 h-8 rounded-full"
             />
             <span>{{ option.label }}</span>
           </div>
@@ -50,10 +50,10 @@
       </SelectBox>
       <!-- Select (with flag) -->
       <SelectBox
-        v-model="form.country"
-        :options="countries"
-        placeholder="Select Country"
-        option-label="label"
+          v-model="form.country"
+          :options="countries"
+          placeholder="Select Country"
+          option-label="label"
       />
       <!-- <template #option="{ option, activeOption }">
                         <div class="flex items-center space-x-3">
@@ -66,27 +66,28 @@
     </div>
     <div class="pre mt-auto w-full">
       <pre>
-        {{ { value: form, type: typeof form.year } }}
+        {{ {value: form, type: typeof form.year} }}
     </pre
-      >
+    >
     </div>
   </section>
 </template>
 
 <script setup lang="ts">
-import type { OptionType } from "~/types/option.types";
+import type {OptionType} from "~/types/option.types";
 
 const amount = ref<number>(0);
 const msg = ref<string>("");
 
 interface Person extends OptionType {
   imageUrl: string;
+
   [key: string]: any;
 }
 
 type Country = {
   flag: string;
-  [key: string]: any;
+  [key: string]: unknown;
 } & OptionType;
 
 type Form = {
@@ -119,39 +120,39 @@ const persons: Person[] = [
     id: 1,
     label: "Dennis Buchanan",
     imageUrl:
-      "https://www.flowbite.com/docs/images/people/profile-picture-1.jpg",
+        "https://www.flowbite.com/docs/images/people/profile-picture-1.jpg",
   },
   {
     id: 2,
     label: "Allie Anderson",
     imageUrl:
-      "https://www.flowbite.com/docs/images/people/profile-picture-2.jpg",
+        "https://www.flowbite.com/docs/images/people/profile-picture-2.jpg",
   },
   {
     id: 3,
     label: "Viola Graham",
     imageUrl:
-      "https://www.flowbite.com/docs/images/people/profile-picture-3.jpg",
+        "https://www.flowbite.com/docs/images/people/profile-picture-3.jpg",
   },
   {
     id: 4,
     label: "Cynthia Ferguson",
     imageUrl:
-      "https://www.flowbite.com/docs/images/people/profile-picture-4.jpg",
+        "https://www.flowbite.com/docs/images/people/profile-picture-4.jpg",
   },
   {
     id: 5,
     label: "Rena Chandler",
     imageUrl:
-      "https://www.flowbite.com/docs/images/people/profile-picture-5.jpg",
+        "https://www.flowbite.com/docs/images/people/profile-picture-5.jpg",
   },
 ];
 
 const countries: Country[] = [
-  { id: 1, label: "USA", flag: "🏳️‍⚧️" },
-  { id: 2, label: "GERMANY", flag: "🏳️‍🌈" },
-  { id: 3, label: "ITALY", flag: "🏁" },
-  { id: 4, label: "CHINA", flag: "🎌" },
+  {id: 1, label: "USA", flag: "🏳️‍⚧️"},
+  {id: 2, label: "GERMANY", flag: "🏳️‍🌈"},
+  {id: 3, label: "ITALY", flag: "🏁"},
+  {id: 4, label: "CHINA", flag: "🎌"},
 ];
 
 // const deliveryDates: Date[] = []

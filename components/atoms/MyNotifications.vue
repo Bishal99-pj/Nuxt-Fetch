@@ -5,6 +5,7 @@
       role="region"
       v-bind="$attrs"
     >
+    <Icon name="mdi:github" class="w-8 h-8" />
       <Transition name="toast ">
         <div
           v-if="notifications.length"

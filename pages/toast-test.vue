@@ -1,22 +1,23 @@
 <template>
   <div class="space-y-4">
-    <button type="button" class="btn-contrast" @click="addToasts">
+    <!-- <button type="button" class="btn-contrast" @click="addToasts">
       Show Toast
-    </button>
+    </button> -->
 
-    <MyNotifications />
+    <!-- <MyNotifications /> -->
+    <NsImage />
   </div>
 </template>
 
 <script setup lang="ts">
-const toast = useToast();
+// const toast = useToast();
 
-const addToasts = () => {
-  toast.add({
-    message: "Hello, World!",
-    variant: "success",
-  });
-};
+// const addToasts = () => {
+//   toast.add({
+//     message: "Hello, World!",
+//     variant: "success",
+//   });
+// };
 </script>
 
 <style scoped>
